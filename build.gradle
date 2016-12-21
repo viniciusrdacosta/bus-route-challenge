@@ -1,0 +1,57 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    ext {
+        springBootVersion = '1.4.2.RELEASE'
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath('org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.7.1')
+    }
+}
+
+apply plugin: 'pmd'
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'jacoco'
+apply plugin: 'findbugs'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'com.github.kt3k.coveralls'
+
+jar {
+    baseName = 'bus-route-challenge'
+    version = '1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-devtools'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+
+    compile group: 'org.slf4j', name: 'slf4j-api'
+    compile group: 'org.projectlombok', name: 'lombok'
+    compile group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1u2'
+
+    testCompile group: 'org.assertj', name: 'assertj-core'
+    testCompile group: 'com.jayway.jsonpath', name: 'json-path'
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+}
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "3.2"
+}
+
+apply from: "${rootProject.rootDir}/gradle/idea.gradle"
+apply from: "${rootProject.rootDir}/gradle/coveralls.gradle"

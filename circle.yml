@@ -1,0 +1,7 @@
+java:
+  version: oraclejdk8
+
+general:
+  branches:
+    only:
+      - master
