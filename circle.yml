@@ -1,7 +1,20 @@
-java:
-  version: oraclejdk8
+machine:
+  java:
+    version: oraclejdk8
+  environment:
+    COVERALLS_REPO_TOKEN: eINwhCa3I5pd19GaqHC5ArCjp0PfUwNMM
 
 general:
   branches:
     only:
       - master
+  artifacts:
+      - build/libs/bus-route-challenge-*.jar"
+
+compile:
+  override:
+    - ./gradlew build
+
+test:
+  post:
+    - ./gradlew jacocoTestReport coveralls

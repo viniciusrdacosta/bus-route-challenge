@@ -23,7 +23,11 @@ apply plugin: 'com.github.kt3k.coveralls'
 
 jar {
     baseName = 'bus-route-challenge'
-    version = '1.0'
+    if (System.getenv("CIRCLECI") == "true") {
+        version = "1.0.${System.getenv("CIRCLE_BUILD_NUM")}"
+    } else {
+        version = '1.0.0'
+    }
 }
 
 repositories {
@@ -33,7 +37,6 @@ repositories {
 dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-devtools'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
 
     compile group: 'org.slf4j', name: 'slf4j-api'
