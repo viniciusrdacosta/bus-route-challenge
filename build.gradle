@@ -23,8 +23,8 @@ apply plugin: 'com.github.kt3k.coveralls'
 
 jar {
     baseName = 'bus-route-challenge'
-    if (System.getenv("CIRCLECI") == "true") {
-        version = "1.0.${System.getenv("CIRCLE_BUILD_NUM")}"
+    if (System.getenv('CIRCLECI') == 'true') {
+        version = ''
     } else {
         version = '1.0.0'
     }

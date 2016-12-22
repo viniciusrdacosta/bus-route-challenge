@@ -9,11 +9,11 @@ general:
     only:
       - master
   artifacts:
-      - build/libs/bus-route-challenge-*.jar"
+      - "/home/ubuntu/bus-route-challenge/build/libs/bus-route-challenge.jar"
 
 compile:
   override:
-    - ./gradlew build
+    - ./gradlew clean build
 
 test:
   post:
