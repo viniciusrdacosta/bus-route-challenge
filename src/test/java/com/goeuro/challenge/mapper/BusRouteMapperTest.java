@@ -36,4 +36,13 @@ public class BusRouteMapperTest {
                 .isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("Bus Route [1] have duplicated station [3, 1, 6, 5, 6]");
     }
+
+    @Test
+    public void shouldNotHaveNumberOfRoutesDifferentThanDefined() {
+        assertThatThrownBy(() -> mapper.map(asList("3", "0 0 1 2 3 4", "1 3 1 6 5 6")))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Number of routes [2] is different than defined [3]");
+    }
 }
+
+
