@@ -20,8 +20,8 @@ public class BusRouteMapperTest {
     }
 
     @Test
-    public void shouldTransformRoutesDataFileIntoBusRoutes() {
-        List<BusRoute> actualRoutes = mapper.map(asList("3", "0 0 1 2 3 4", "1 3 1 6 5", "2 0 6 4"));
+    public void shouldTransformRoutesStringDataWithMoreThanOneRouteIntoBusRoutes() {
+        List<BusRoute> actualRoutes = mapper.map(asList("0 0 1 2 3 4", "1 3 1 6 5", "2 0 6 4"));
         List<BusRoute> expectedRoutes = asList(
                 new BusRoute(0, asList(0, 1, 2, 3, 4)),
                 new BusRoute(1, asList(3, 1, 6, 5)),
@@ -31,17 +31,18 @@ public class BusRouteMapperTest {
     }
 
     @Test
-    public void shouldNotHaveSameStationMoreThanOnceInTheSameBusRoute() {
-        assertThatThrownBy(() -> mapper.map(asList("3", "0 0 1 2 3 4", "1 3 1 6 5 6", "2 0 6 4")))
-                .isInstanceOf(RuntimeException.class)
-                .hasMessageContaining("Bus Route [1] have duplicated station [3, 1, 6, 5, 6]");
+    public void shouldTransformRoutesStringDataWithOnlyOneRouteIntoBusRoutes() {
+        List<BusRoute> actualRoutes = mapper.map(asList("0 0 1 2 3 4"));
+        List<BusRoute> expectedRoutes = asList(new BusRoute(0, asList(0, 1, 2, 3, 4)));
+
+        assertThat(actualRoutes).containsExactlyElementsOf(expectedRoutes);
     }
 
     @Test
-    public void shouldNotHaveNumberOfRoutesDifferentThanDefined() {
-        assertThatThrownBy(() -> mapper.map(asList("3", "0 0 1 2 3 4", "1 3 1 6 5 6")))
+    public void shouldNotHaveDuplicatedStationBusRoute() {
+        assertThatThrownBy(() -> mapper.map(asList("3", "0 0 1 2 3 4", "1 3 1 6 5 6", "2 0 6 4")))
                 .isInstanceOf(RuntimeException.class)
-                .hasMessageContaining("Number of routes [2] is different than defined [3]");
+                .hasMessageContaining("Bus Route [1] have duplicated station [3, 1, 6, 5, 6]");
     }
 }
 

@@ -1,16 +1,12 @@
 package com.goeuro.challenge.repository;
 
+import com.goeuro.challenge.io.FileManager;
 import com.goeuro.challenge.mapper.BusRouteMapper;
 import com.goeuro.challenge.model.BusRoute;
-import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,13 +17,15 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(makeFinal = true, level = PRIVATE)
 public class BusRouteRepository {
 
+    FileManager fileManager;
     BusRouteMapper mapper;
     List<BusRoute> routes;
 
     @Autowired
-    public BusRouteRepository(@Value("${file}") String file, BusRouteMapper mapper) {
+    public BusRouteRepository(FileManager fileManager, BusRouteMapper mapper) {
+        this.fileManager = fileManager;
         this.mapper = mapper;
-        this.routes = busRoutes(file);
+        this.routes = busRoutes();
     }
 
     public List<BusRoute> getDirectRoutesBetweenStations(Integer departureId, Integer arrivalId) {
@@ -41,20 +39,8 @@ public class BusRouteRepository {
                 && busRoute.getStations().indexOf(departureId) < busRoute.getStations().indexOf(arrivalId);
     }
 
-    @SneakyThrows
-    private List<BusRoute> busRoutes(String file) {
-        List<String> routesData = Files.readAllLines(getPath(file));
-        return mapper.map(routesData);
-    }
-
-    @SneakyThrows
-    private Path getPath(String file) {
-        return isNullOrEmpty(file) ? Paths.get(ClassLoader.getSystemResource("sample-data").toURI())
-                : Paths.get(file);
-    }
-
-    private boolean isNullOrEmpty(String file) {
-        return file == null || file.isEmpty();
+    private List<BusRoute> busRoutes() {
+        return mapper.map(fileManager.routesData());
     }
 
 }

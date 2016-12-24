@@ -1,5 +1,6 @@
 package com.goeuro.challenge.repository;
 
+import com.goeuro.challenge.io.FileManager;
 import com.goeuro.challenge.mapper.BusRouteMapper;
 import com.goeuro.challenge.model.BusRoute;
 import org.junit.Before;
@@ -20,13 +21,16 @@ import static org.mockito.Mockito.when;
 public class BusRouteRepositoryTest {
 
     @Mock
+    private FileManager manager;
+    @Mock
     private BusRouteMapper mapper;
     private BusRouteRepository repository;
 
     @Before
     public void setUp() {
+        when(manager.routesData()).thenReturn(routesData());
         when(mapper.map(anyList())).thenReturn(allRoutes());
-        repository = new BusRouteRepository(null, mapper);
+        repository = new BusRouteRepository(manager, mapper);
     }
 
     @Test
@@ -36,6 +40,10 @@ public class BusRouteRepositoryTest {
         assertThat(routesWithDepartureStationId3).containsExactlyElementsOf(
                 asList(new BusRoute(1, asList(0, 3, 1, 6, 5))));
 
+    }
+
+    private List<String> routesData() {
+        return asList("3", "0 0 1 2 3 4", "1 3 1 6 5", "2 0 6 4");
     }
 
     private List<BusRoute> allRoutes() {

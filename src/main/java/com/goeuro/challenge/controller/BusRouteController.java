@@ -22,7 +22,7 @@ public class BusRouteController {
         this.service = service;
     }
 
-    @RequestMapping(method = GET, path = "/api/direct")
+    @RequestMapping(method = GET, path = "/direct")
     public BusRouteResponse directRoute(@RequestParam("dep_sid") Integer departureId,
                                         @RequestParam("arr_sid") Integer arrivalId) {
         boolean hasDirectRoute = service.hasDirectRouteBetweenStations(departureId, arrivalId);

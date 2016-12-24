@@ -56,5 +56,9 @@ task wrapper(type: Wrapper) {
     gradleVersion = "3.2"
 }
 
+bootRun {
+    jvmArgs = ["-DroutesFilePath="]
+}
+
 apply from: "${rootProject.rootDir}/gradle/idea.gradle"
 apply from: "${rootProject.rootDir}/gradle/coveralls.gradle"
