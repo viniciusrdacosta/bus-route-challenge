@@ -57,7 +57,7 @@ task wrapper(type: Wrapper) {
 }
 
 bootRun {
-    jvmArgs = ["-DroutesFilePath="]
+    jvmArgs = ["-DroutesFilePath=", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"]
 }
 
 apply from: "${rootProject.rootDir}/gradle/idea.gradle"
