@@ -41,7 +41,6 @@ public class FileManager {
     private List<String> routes(List<String> data) {
         List<String> validRoutes = data.subList(1, data.size());
         validateNumberOfRoutes(Integer.parseInt(data.get(0)), validRoutes.size());
-        ;
         return validRoutes;
     }
 
