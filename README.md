@@ -11,14 +11,13 @@
 
 
 ## Implementation
+  
   ### Relevant Frameworks   
   
  1. Spring-Boot 
     1. spring-boot-devtools
     2. spring-boot-starter-web
     3. spring-boot-starter-actuator
-
-
  2. Lombok
  3. Logback
  4. AssertJ
